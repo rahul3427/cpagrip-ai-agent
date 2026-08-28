@@ -33,6 +33,7 @@ class ContentEngine:
         chosen_persona = random.choice(personas)
         random_seed = int(time.time() * 1000) % 100000
 
+        if self.client:
             # Diverse authentic storytelling angles for Medium
             story_themes = [
                 "a warm, personal journal entry about finding a small unexpected win while balancing family budget",
