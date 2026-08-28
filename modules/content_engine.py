@@ -41,22 +41,23 @@ class ContentEngine:
             Safe Resource Link: {safe_bridge_url}
 
             CRITICAL CONTEXT & BENEFIT RULES:
-            1. TOPIC CONTEXT: The content MUST be directly about the reward ({title} - e.g. if it's about sneakers, talk about shoes/footwear deals; if it's a gas card, talk about gas prices/fuel savings; if it's Ulta, talk about beauty/skincare; if Walmart/Target, talk about groceries/essentials).
+            1. TOPIC CONTEXT: The content MUST be directly about the reward ({title} - e.g. sneakers/shoes, gas card/fuel, beauty/skincare, grocery/retail).
             2. FRAME AS SHARING FOR THEIR BENEFIT: Write like an excited everyday US shopper sharing an insider tip with fellow readers so they can claim the perk too.
             3. ZERO BOT DISCLAIMERS: Never write '(shared via partner link)', '(ad)', or any robotic tags.
             4. BANNED AI BUZZWORDS: Never use 'delve', 'tapestry', 'testament', 'beacon', 'game-changer', 'revolutionize', 'fast-paced world', 'moreover', 'furthermore', 'it is important to remember', 'navigate', 'in conclusion'.
-            5. REDDIT COMMENT MUST BE SHORT & PUNCHY (2 to 3 sentences max!):
-               - Casual, relatable slang ('tbh', 'ngl', 'honestly', 'pretty solid', 'was kinda skeptical').
-               - Naturally link [{title}]({safe_bridge_url}) as the place to grab it before the round closes.
-               - Zero disclaimers.
-            6. MEDIUM ARTICLE (300-350 words):
+
+            5. REDDIT COMMENT 1 (FOR POPULAR / TRENDING POSTS): Exactly 2 to 3 sentences. Casual, relatable break discovery (e.g. browsing between tasks or scrolling on a phone, tested [{title}]({safe_bridge_url}), super easy email/zip check).
+            6. REDDIT COMMENT 2 (FOR MONEY / FINANCE POSTS): Exactly 2 to 3 sentences. Frugal/money-saving tip (e.g. cutting everyday retail expenses in the US, tested [{title}]({safe_bridge_url}), quick 1-minute win).
+
+            7. MEDIUM ARTICLE (300-350 words):
                - Engaging story tailored specifically to this reward category in the US.
                - 3 clear bullet steps showing how US residents enter their email/zip to claim.
                - Seamlessly integrate [{title}]({safe_bridge_url}).
 
             Output strictly in this JSON format without markdown code blocks:
             {{
-              "reddit_universal_comment": "Short 2-3 sentence pure human comment specifically about {title} with [{title}]({safe_bridge_url}) and NO robotic tags",
+              "reddit_comment_url1": "Short 2-3 sentence casual comment for US Popular posts with [{title}]({safe_bridge_url}) and NO robotic tags",
+              "reddit_comment_url2": "Short 2-3 sentence money-saving comment for US Money posts with [{title}]({safe_bridge_url}) and NO robotic tags",
               "medium_title": "Catchy headline specifically about {title} under 75 chars",
               "medium_subtitle": "One conversational benefit line about claiming this reward",
               "medium_article": "300-350 word story specifically about {title} with 3 steps on entering email/zip",
@@ -91,11 +92,12 @@ class ContentEngine:
             f"Honestly if you have a few minutes of downtime at work, [{title}]({safe_bridge_url}) is a pretty solid little life hack. Tested it on iOS earlier this week and it credited without any hassle. Easy way to turn idle screen time into a small win."
         ]
         return {
-            "reddit_universal_comment": random.choice(fallbacks),
-            "medium_title": f"How a 2-Minute Phone Routine Is Helping US Shoppers Save",
-            "medium_subtitle": "A quick look at verified micro-reward trials that actually pay out in 2026.",
-            "medium_article": f"Between $7 coffee orders and rising utility bills across the US, finding small, zero-cost wins has become my favorite hobby this year.\n\n### The 2-Minute Screen Time Swap\nMost of us lose 20 to 30 minutes every evening just mindlessly scrolling social media. Instead of wasting that time, I started testing out verified brand research portals that reward everyday users for trying new mobile apps and quick tools.\n\n### What I Tested: {title}\nEarlier this week I ran through [{title}]({safe_bridge_url}). The setup was surprisingly simple: you just open the portal on your phone, complete a 1-minute sponsor check, and claim your promotional trial access.\n\n### The Takeaway\nIt won't replace your day job, but taking two minutes during your lunch break to grab verified rewards is a super easy habit to stack throughout the month.\n\n*(Note: Contains verified partner access link)*",
-            "medium_tags": "Money, Side Hustle, Personal Finance, Life Hacks, Productivity"
+            "reddit_comment_url1": f"Was taking a quick break between Zoom calls and stumbled on this {title} promo. Ngl I was kinda skeptical at first, but it literally takes a minute to drop your email and zip to see if you qualify. You can check it out over at [{title}]({safe_bridge_url}) before this current round fills up.",
+            "reddit_comment_url2": f"Honestly with retail prices being so crazy right now, finding verified promos like [{title}]({safe_bridge_url}) is a pretty solid little win. It only takes about a minute on your phone to enter your email and zip to claim entry. Definitely worth checking out to save some extra cash!",
+            "medium_title": f"The Smart US Consumer Hack for {title} in 2026",
+            "medium_subtitle": "How everyday Americans are turning simple 2-minute phone habits into real perks.",
+            "medium_article": f"Between rising living costs across the United States, finding practical, zero-cost ways to supplement your budget has never been more relevant.\n\n### Featured US Opportunity: {title}\nOne of the most reliable verified programs active right now is [{title}]({safe_bridge_url}). Open to eligible US residents, this program offers a direct, hassle-free way to claim promotional access in under two minutes.\n\n### Simple Steps to Claim Access:\n1. Open the [Verified US Rewards Hub]({safe_bridge_url}).\n2. Complete the quick sponsor check on your phone or PC.\n3. Instantly claim your promotional reward.\n\n*(Note: This article contains verified partner access links).*",
+            "medium_tags": "Money, Savings, Deals, Shopping, Frugal Living"
         }
 
     def _generate_fallback(self, offer, safe_bridge_url):

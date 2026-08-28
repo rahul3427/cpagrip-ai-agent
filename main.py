@@ -46,29 +46,39 @@ def run_agent():
     print(f"🛡️ [3/4] Generated Safe Pre-Lander Link: {safe_bridge_link}")
 
     # 4. Generate Structured Content with Gemini
-    print("✍️ [4/4] Generating Universal Reddit Comment & US-Targeted Medium Story...")
+    print("✍️ [4/4] Generating 2 Reddit Comments & US-Targeted Medium Story...")
     angles = content_engine.generate_angles(best_offer, safe_bridge_link)
-    reddit_comment = angles.get("reddit_universal_comment", angles.get("reddit_comment", ""))
+    reddit_comment1 = angles.get("reddit_comment_url1", angles.get("reddit_universal_comment", ""))
+    reddit_comment2 = angles.get("reddit_comment_url2", angles.get("reddit_universal_comment", ""))
     medium_title = angles.get("medium_title", best_offer["title"])
     medium_subtitle = angles.get("medium_subtitle", "Verified US promotional opportunity.")
     medium_article = angles.get("medium_article", "")
-    medium_tags = angles.get("medium_tags", "Money, Side Hustle, Personal Finance, Life Hacks, Productivity")
+    medium_tags = angles.get("medium_tags", "Money, Savings, Deals, Shopping, Frugal Living")
 
     # ==========================================
-    # MESSAGE 1: REDDIT ACTION CARD (UNIVERSAL COMMENT)
+    # MESSAGE 1: REDDIT ACTION CARD (2 CUSTOM OPTIONS)
     # ==========================================
-    reddit_message = f"""🔥 *REDDIT ACTION CARD (Universal Human Comment)*
+    reddit_message = f"""🔥 *REDDIT ACTION CARD (2 Custom Options)*
 
 📌 *Offer Name:* {best_offer['title']} (${best_offer['payout']})
 📍 *Target Geo:* US ({best_offer['type']})
 
-🎯 *Step 1: Click either link to open top trending US posts:*
-👉 [URL 1: US Popular / Best Posts](https://www.reddit.com/r/popular/best/?geo_filter=us)
-👉 [URL 2: Top Money Posts Today](https://www.reddit.com/search/?q=money&type=posts&sort=top&t=day)
+━━━━━━━━━━━━━━━━━━━━
+🔥 *OPTION 1: FOR US POPULAR / TRENDING POSTS*
+👉 [Open URL 1: US Popular / Best Posts](https://www.reddit.com/r/popular/best/?geo_filter=us)
 
-📋 *Step 2: Tap COPY CODE below to paste this universal comment:*
+📋 *Tap COPY CODE for Option 1 Comment:*
 ```text
-{reddit_comment}
+{reddit_comment1}
+```
+
+━━━━━━━━━━━━━━━━━━━━
+💰 *OPTION 2: FOR TOP MONEY & FINANCE POSTS*
+👉 [Open URL 2: Top Money Posts Today](https://www.reddit.com/search/?q=money&type=posts&sort=top&t=day)
+
+📋 *Tap COPY CODE for Option 2 Comment:*
+```text
+{reddit_comment2}
 ```
 """
 
