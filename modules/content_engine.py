@@ -33,35 +33,43 @@ class ContentEngine:
         chosen_persona = random.choice(personas)
         random_seed = int(time.time() * 1000) % 100000
 
-        if self.client:
+            # Diverse authentic storytelling angles for Medium
+            story_themes = [
+                "a warm, personal journal entry about finding a small unexpected win while balancing family budget",
+                "a funny and relatable story about a coffee run realization and discovering regional sponsor perks",
+                "an honest, transparent review sharing a 2-minute life hack with friends and coworkers",
+                "a cozy weekend reflection on cutting everyday shopping costs without giving up favorite treats"
+            ]
+            chosen_theme = random.choice(story_themes)
+
             prompt = f"""
-            You are writing as {chosen_persona}.
-            Seed/Timestamp: {random_seed}
-            Offer Reward Name: {title} (Payout: ${payout}, Category: Email/Zip Submit)
-            Safe Resource Link: {safe_bridge_url}
+            You are an authentic, warm, and friendly US writer sharing a genuine personal story.
+            Theme: {chosen_theme}
+            Location/Background: {chosen_persona}
+            Reward Opportunity: {title}
+            Direct Resource Link: {safe_bridge_url}
 
-            CRITICAL CONTEXT & BENEFIT RULES:
-            1. TOPIC CONTEXT: The content MUST be directly about the reward ({title} - e.g. sneakers/shoes, gas card/fuel, beauty/skincare, grocery/retail).
-            2. FRAME AS SHARING FOR THEIR BENEFIT: Write like an excited everyday US shopper sharing an insider tip with fellow readers so they can claim the perk too.
-            3. ZERO BOT DISCLAIMERS: Never write '(shared via partner link)', '(ad)', or any robotic tags.
-            4. BANNED AI BUZZWORDS: Never use 'delve', 'tapestry', 'testament', 'beacon', 'game-changer', 'revolutionize', 'fast-paced world', 'moreover', 'furthermore', 'it is important to remember', 'navigate', 'in conclusion'.
+            CRITICAL MEDIUM WRITING & LINK FORMATTING RULES:
+            1. ZERO MARKDOWN BRACKET LINKS in the Medium article text! Medium does not parse [Text](url) markdown syntax. Instead, include the clean URL directly on its own line like this:
+               👉 Official Claim Page: {safe_bridge_url}
+            2. ULTRA-FRIENDLY & HUMAN: Write like you are talking to a close friend over coffee. Share a genuine, relatable life scenario (dealing with real US prices, grocery runs, family, or work routines).
+            3. REALISTIC & HUMBLE: No sales hype, no get-rich-quick claims. Frame this as a neat 2-minute perk that helped cover a small treat or errand.
+            4. CLEAR 3-STEP GUIDE: Explain how fellow US residents enter their basic email and zip code to check eligibility.
+            5. ZERO BANNED AI WORDS: No 'delve', 'tapestry', 'testament', 'beacon', 'game-changer', 'revolutionize', 'fast-paced', 'moreover', 'furthermore', 'in conclusion'.
 
-            5. REDDIT COMMENT 1 (FOR POPULAR / TRENDING POSTS): Exactly 2 to 3 sentences. Casual, relatable break discovery (e.g. browsing between tasks or scrolling on a phone, tested [{title}]({safe_bridge_url}), super easy email/zip check).
-            6. REDDIT COMMENT 2 (FOR MONEY / FINANCE POSTS): Exactly 2 to 3 sentences. Frugal/money-saving tip (e.g. cutting everyday retail expenses in the US, tested [{title}]({safe_bridge_url}), quick 1-minute win).
-
-            7. MEDIUM ARTICLE (300-350 words):
-               - Engaging story tailored specifically to this reward category in the US.
-               - 3 clear bullet steps showing how US residents enter their email/zip to claim.
-               - Seamlessly integrate [{title}]({safe_bridge_url}).
+            REDDIT WRITING RULES:
+            - Comment 1 (Popular): Short 2-3 sentence casual lifestyle break thought with [{title}]({safe_bridge_url}).
+            - Comment 2 (Money): Short 2-3 sentence smart budgeting/saving tip with [{title}]({safe_bridge_url}).
+            - No robotic disclaimers.
 
             Output strictly in this JSON format without markdown code blocks:
             {{
-              "reddit_comment_url1": "Short 2-3 sentence casual comment for US Popular posts with [{title}]({safe_bridge_url}) and NO robotic tags",
-              "reddit_comment_url2": "Short 2-3 sentence money-saving comment for US Money posts with [{title}]({safe_bridge_url}) and NO robotic tags",
-              "medium_title": "Catchy headline specifically about {title} under 75 chars",
-              "medium_subtitle": "One conversational benefit line about claiming this reward",
-              "medium_article": "300-350 word story specifically about {title} with 3 steps on entering email/zip",
-              "medium_tags": "Money, Savings, Deals, Shopping, Frugal Living"
+              "reddit_comment_url1": "Short 2-3 sentence casual comment for Popular posts with [{title}]({safe_bridge_url})",
+              "reddit_comment_url2": "Short 2-3 sentence money-saving comment for Money posts with [{title}]({safe_bridge_url})",
+              "medium_title": "Warm, curiosity-driven personal story headline under 75 chars",
+              "medium_subtitle": "A friendly one-sentence personal takeaway",
+              "medium_article": "320-380 word heartwarming, highly relatable story using clean subheaders and direct link callout 👉 Official Claim Page: {safe_bridge_url}",
+              "medium_tags": "Life Lessons, Personal Finance, Money, Self Improvement, Frugal Living"
             }}
             """
             try:

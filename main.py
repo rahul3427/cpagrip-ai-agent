@@ -41,19 +41,19 @@ def run_agent():
     best_offer = top_offers[0]
     print(f"🎯 [2/4] Selected Top Offer: '{best_offer['title']}' (EPC: {best_offer['epc']} | Payout: ${best_offer['payout']})")
 
-    # 3. Generate Anti-Ban Safe Bridge Link
-    safe_bridge_link = bridge_generator.generate_safe_url(best_offer["link"], best_offer["title"])
+    # 3. Generate Anti-Ban Safe Bridge Link (Short & Clean)
+    safe_bridge_link = bridge_generator.create_safe_link(best_offer["title"], best_offer.get("id"), best_offer.get("link"))
     print(f"🛡️ [3/4] Generated Safe Pre-Lander Link: {safe_bridge_link}")
 
     # 4. Generate Structured Content with Gemini
-    print("✍️ [4/4] Generating 2 Reddit Comments & US-Targeted Medium Story...")
+    print("✍️ [4/4] Generating 2 Reddit Comments & Friendly Medium Story...")
     angles = content_engine.generate_angles(best_offer, safe_bridge_link)
-    reddit_comment1 = angles.get("reddit_comment_url1", angles.get("reddit_universal_comment", ""))
-    reddit_comment2 = angles.get("reddit_comment_url2", angles.get("reddit_universal_comment", ""))
+    reddit_comment1 = angles.get("reddit_comment_url1", "")
+    reddit_comment2 = angles.get("reddit_comment_url2", "")
     medium_title = angles.get("medium_title", best_offer["title"])
-    medium_subtitle = angles.get("medium_subtitle", "Verified US promotional opportunity.")
+    medium_subtitle = angles.get("medium_subtitle", "A friendly personal reflection.")
     medium_article = angles.get("medium_article", "")
-    medium_tags = angles.get("medium_tags", "Money, Savings, Deals, Shopping, Frugal Living")
+    medium_tags = angles.get("medium_tags", "Life Lessons, Personal Finance, Money, Self Improvement, Frugal Living")
 
     # ==========================================
     # MESSAGE 1: REDDIT ACTION CARD (2 CUSTOM OPTIONS)
@@ -83,19 +83,19 @@ def run_agent():
 """
 
     # ==========================================
-    # MESSAGE 2: MEDIUM ACTION CARD (US-TARGETED STORY)
+    # MESSAGE 2: MEDIUM ACTION CARD (1-MINUTE STORY)
     # ==========================================
-    medium_message = f"""📝 *MEDIUM ACTION CARD (1-Minute Story)*
+    medium_message = f"""📝 *MEDIUM ACTION CARD (Friendly Human Story)*
 
 🚀 *Step 1: Open Medium Story Creator:*
 👉 [Click to Write New Story on Medium](https://medium.com/new-story)
 
-🏷️ *Step 2: Subtitle (Optional):*
+🔗 *Step 2: Tap COPY CODE for Direct Resource Link (For Ctrl+K in Medium):*
 ```text
-{medium_subtitle}
+{safe_bridge_link}
 ```
 
-📄 *Step 3: Tap COPY CODE below for Full Article Body:*
+📄 *Step 3: Tap COPY CODE below for Full Story Body:*
 ```text
 {medium_article}
 ```
