@@ -78,24 +78,31 @@ def run_agent():
     # ==========================================
     # MESSAGE 2: PINTEREST ACTION CARD
     # ==========================================
-    pinterest_caption = f"""📌 *PINTEREST ACTION CARD (1-Minute Pin)*
+    pinterest_message = f"""📌 *PINTEREST ACTION CARD (1-Minute Pin)*
 
 🚀 *Step 1: Open Pinterest Creator:*
 👉 [Click to Open Pinterest Pin Builder](https://www.pinterest.com/pin-builder/)
 
-🏷️ *Step 2: Copy Pin Title:*
-`{pin_title}`
+🏷️ *Step 2: Tap the box below to copy Pin Title:*
+```text
+{pin_title}
+```
 
-📝 *Step 3: Copy Pin Description:*
-`{pin_description}`
+📝 *Step 3: Tap the box below to copy Pin Description:*
+```text
+{pin_description}
+```
 
-🌐 *Step 4: Copy Destination Link:*
-`{safe_bridge_link}`
+🌐 *Step 4: Tap the box below to copy Destination Link:*
+```text
+{safe_bridge_link}
+```
 """
 
     # Dispatch to Telegram
     notifier.send_notification(reddit_message)
-    notifier.send_photo(pin_image_path, caption=pinterest_caption)
+    notifier.send_photo(pin_image_path, caption="🎨 Save this Pinterest Pin image to your device!")
+    notifier.send_notification(pinterest_message)
     print("✨ [AI Agent] Pipeline execution complete. Two clean cards delivered to Telegram!")
 
 if __name__ == "__main__":
