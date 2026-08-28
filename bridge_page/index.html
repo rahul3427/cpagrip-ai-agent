@@ -195,13 +195,19 @@
   </div>
 
   <script>
-    // Read dynamic params passed by your AI agent
+    // Parse dynamic URL parameters
     const urlParams = new URLSearchParams(window.location.search);
-    const targetUrl = urlParams.get('target');
-    const dynamicTitle = urlParams.get('title');
+    let targetUrl = urlParams.get('target');
+    const offerId = urlParams.get('id');
+    const offerTitle = urlParams.get('title');
 
-    if (dynamicTitle) {
-      document.getElementById('offer-title').innerText = decodeURIComponent(dynamicTitle);
+    // If short ?id= parameter is passed, build the official CPAGrip offer URL
+    if (!targetUrl && offerId) {
+        targetUrl = `https://www.cpagrip.com/show.php?l=0&u=472911&id=${offerId}`;
+    }
+
+    if (offerTitle) {
+      document.getElementById('offer-title').innerText = decodeURIComponent(offerTitle);
     }
 
     const claimBtn = document.getElementById('claim-btn');
