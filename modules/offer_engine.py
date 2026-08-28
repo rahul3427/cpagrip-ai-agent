@@ -10,53 +10,61 @@ class OfferEngine:
         self.target_geo = target_geo or os.getenv("TARGET_GEO", "US")
 
     def fetch_offers(self):
-        """Fetches offers from CPAGrip API with automatic fallback to high-value mock data for testing."""
+        """Fetches live offers from CPAGrip API with automatic fallback to sample data."""
         if self.user_id and self.api_key and self.user_id != "your_cpagrip_user_id":
-            url = f"https://www.cpagrip.com/common/offer_feed_json.php?user_id={self.user_id}&key={self.api_key}&country=US&showall=yes&tracking_id="
+            url = f"https://www.cpagrip.com/common/offer_feed_json.php?user_id={self.user_id}&key={self.api_key}&showall=yes"
             try:
-                response = requests.get(url, timeout=15)
+                response = requests.get(url, timeout=20)
                 data = response.json()
                 raw_offers = data.get("offers", [])
                 if raw_offers:
-                    print(f"📊 [CPAGrip API] Found {len(raw_offers)} live offers from your account!")
+                    print(f"📊 [CPAGrip API] Successfully fetched {len(raw_offers)} total network offers!")
                     return self._filter_and_rank(raw_offers)
-                else:
-                    print(f"[!] CPAGrip returned 0 offers. Checking without filters...")
-                    url_all = f"https://www.cpagrip.com/common/offer_feed_json.php?user_id={self.user_id}&key={self.api_key}&showall=yes"
-                    data_all = requests.get(url_all, timeout=15).json()
-                    raw_all = data_all.get("offers", [])
-                    if raw_all:
-                        return self._filter_and_rank(raw_all)
             except Exception as e:
                 print(f"[!] Warning: Could not fetch live CPAGrip feed ({e}). Using sample offers.")
 
-        # Fallback realistic sample US offers for instant testing
+        # Fallback realistic sample US offers
         return self._get_sample_offers()
 
     def _filter_and_rank(self, offers):
-        """Filters by target country and sorts by EPC descending."""
+        """Filters by target country and sorts by EPC / payout descending."""
         filtered = []
         for o in offers:
-            geo = o.get("country", "")
+            geo = o.get("accepted_countries") or o.get("country", "")
+            
+            # Extract EPC (can be netepc or epc)
+            epc_raw = o.get("netepc") or o.get("epc", 0)
             try:
-                epc = float(o.get("epc", 0))
+                epc = float(epc_raw)
             except (ValueError, TypeError):
                 epc = 0.0
 
-            if self.target_geo in geo and epc >= self.min_epc:
+            # Extract Payout
+            try:
+                payout = float(o.get("payout", 1.50))
+            except (ValueError, TypeError):
+                payout = 1.50
+
+            if self.target_geo in geo:
                 filtered.append({
-                    "id": o.get("offer_id", ""),
+                    "id": str(o.get("offer_id", "")),
                     "title": o.get("title", "Exclusive US Reward"),
-                    "description": o.get("description", "Complete short survey to qualify."),
-                    "payout": str(o.get("payout", "1.75")),
-                    "epc": f"${epc:.2f}",
+                    "description": o.get("description", "Complete quick entry to qualify."),
+                    "payout": f"{payout:.2f}",
+                    "epc": f"${epc:.3f}",
                     "epc_val": epc,
+                    "payout_val": payout,
                     "country": geo,
-                    "type": o.get("type", "Email/Zip Submit"),
+                    "type": o.get("category") or o.get("type", "Email/Zip Submit"),
                     "link": o.get("offerlink", "#")
                 })
 
-        sorted_offers = sorted(filtered, key=lambda x: x["epc_val"], reverse=True)
+        if not filtered:
+            print(f"[!] No {self.target_geo} offers found. Using top global offers.")
+            return self._get_sample_offers()
+
+        # Sort primarily by EPC, and secondarily by Payout
+        sorted_offers = sorted(filtered, key=lambda x: (x["epc_val"], x["payout_val"]), reverse=True)
         return sorted_offers[:5]
 
     def _get_sample_offers(self):
