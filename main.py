@@ -83,18 +83,19 @@ def run_agent():
 🚀 *Step 1: Open Pinterest Creator:*
 👉 [Click to Open Pinterest Pin Builder](https://www.pinterest.com/pin-builder/)
 
-🏷️ *Step 2: Tap the box below to copy Pin Title:*
+🏷️ *Step 2: Tap COPY CODE below for Pin Title:*
 ```text
-[PIN TITLE]
 {pin_title}
+
+(Verified US Offer • 2026)
 ```
 
-📝 *Step 3: Tap the box below to copy Pin Description:*
+📝 *Step 3: Tap COPY CODE below for Pin Description:*
 ```text
 {pin_description}
 ```
 
-🌐 *Step 4: Tap the box below to copy Destination Link:*
+🌐 *Step 4: Tap COPY CODE below for Destination Link:*
 ```text
 {safe_bridge_link}
 ```
