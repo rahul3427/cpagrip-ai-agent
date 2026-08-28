@@ -41,24 +41,24 @@ class ContentEngine:
             Safe Link: {safe_bridge_url}
 
             CRITICAL ANTI-AI DETECTION & HUMAN WRITING RULES:
-            1. BANNED AI BUZZWORDS: Never use 'delve', 'tapestry', 'testament', 'beacon', 'game-changer', 'revolutionize', 'fast-paced world', 'moreover', 'furthermore', 'it is important to remember', 'navigate', 'in conclusion'.
-            2. REDDIT COMMENT MUST BE SHORT & PUNCHY: Exactly 2 to 4 sentences total! Write like a real person typing quickly on a phone (use natural contractions like 'tbh', 'ngl', 'honestly', 'pretty solid', 'was kinda skeptical').
-               - Sentence 1: A brief relatable thought on everyday US costs or phone downtime.
-               - Sentence 2: Mentioning testing [{title}]({safe_bridge_url}) and that it actually credited in ~2 minutes.
-               - Sentence 3: Quick casual tip with *(shared via partner link)*.
-            3. MEDIUM ARTICLE MUST BE A UNIQUE HUMAN STORY (300-380 words):
-               - Write in a natural, engaging first-person or conversational third-person US perspective.
-               - Use varied sentence lengths (burstiness).
-               - Mention specific US context (e.g. coffee runs, rising grocery totals, daily phone screen time).
-               - Seamlessly integrate [{title}]({safe_bridge_url}) as a verified 2-minute resource.
-               - Include a natural disclaimer *(Note: Contains verified partner access link)*.
+            1. NEVER add robotic disclaimers like '(shared via partner link)' or '(ad)' to Reddit comments. Real humans on Reddit never type that! Keep it 100% clean, casual, and authentic.
+            2. BANNED AI BUZZWORDS: Never use 'delve', 'tapestry', 'testament', 'beacon', 'game-changer', 'revolutionize', 'fast-paced world', 'moreover', 'furthermore', 'it is important to remember', 'navigate', 'in conclusion'.
+            3. REDDIT COMMENT MUST BE SHORT & PUNCHY (2 to 3 sentences max!):
+               - Write like a real person typing quickly on a smartphone.
+               - Use natural casual phrasing ('tbh', 'ngl', 'honestly', 'pretty solid', 'was kinda skeptical').
+               - Hyperlink [{title}]({safe_bridge_url}) naturally as part of the sentence.
+               - End casually with zero disclaimers or tags.
+            4. MEDIUM ARTICLE MUST BE A NATURAL HUMAN STORY (300-350 words):
+               - Engaging first-person or conversational US narrative.
+               - Mention everyday US context (coffee runs, grocery receipts, phone downtime).
+               - Seamlessly integrate [{title}]({safe_bridge_url}) as a verified resource.
 
             Output strictly in this JSON format without markdown code blocks:
             {{
-              "reddit_universal_comment": "Short 2-4 sentence ultra-human casual comment with [{title}]({safe_bridge_url})",
+              "reddit_universal_comment": "Short 2-3 sentence pure human casual comment with [{title}]({safe_bridge_url}) and NO robotic tags",
               "medium_title": "Catchy, non-cliché headline under 75 chars",
               "medium_subtitle": "One conversational benefit line",
-              "medium_article": "300-380 word human-crafted Medium story with clean headers and natural flow",
+              "medium_article": "300-350 word human-crafted Medium story with clean headers and natural flow",
               "medium_tags": "Money, Side Hustle, Personal Finance, Life Hacks, Productivity"
             }}
             """
@@ -83,11 +83,11 @@ class ContentEngine:
             except Exception as e:
                 print(f"[!] Gemini generation warning ({e}). Using fresh randomized fallback.")
 
-        # Randomized fallback generator
+        # Randomized clean fallback generator
         fallbacks = [
-            f"Tbh with how high grocery receipts have been lately, I've been messing around with quick micro-apps on my breaks. Tried [{title}]({safe_bridge_url}) last week on my phone and the reward credited in like two minutes. Definitely worth a quick try if you're bored on your phone! *(shared via partner link)*",
-            f"Ngl I'm usually skeptical of reward links, but [{title}]({safe_bridge_url}) was super straightforward when I tested it yesterday. Only took about 2 minutes to complete the quick check and it actually went through. Just make sure to confirm via email so it registers! *(shared via partner link)*",
-            f"Honestly if you have a few minutes of downtime at work, [{title}]({safe_bridge_url}) is a pretty solid little life hack. Tested it on iOS earlier this week and it credited without any hassle. Easy way to turn idle screen time into a small win. *(shared via partner link)*"
+            f"Tbh with how high grocery receipts have been lately, I've been messing around with quick micro-apps on my breaks. Tried [{title}]({safe_bridge_url}) last week on my phone and the reward credited in like two minutes. Definitely worth a quick try if you're bored on your phone!",
+            f"Ngl I'm usually skeptical of reward links, but [{title}]({safe_bridge_url}) was super straightforward when I tested it yesterday. Only took about 2 minutes to complete the quick check and it actually went through. Just make sure to confirm via email so it registers!",
+            f"Honestly if you have a few minutes of downtime at work, [{title}]({safe_bridge_url}) is a pretty solid little life hack. Tested it on iOS earlier this week and it credited without any hassle. Easy way to turn idle screen time into a small win."
         ]
         return {
             "reddit_universal_comment": random.choice(fallbacks),
