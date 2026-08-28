@@ -12,13 +12,21 @@ class OfferEngine:
     def fetch_offers(self):
         """Fetches offers from CPAGrip API with automatic fallback to high-value mock data for testing."""
         if self.user_id and self.api_key and self.user_id != "your_cpagrip_user_id":
-            url = f"https://www.cpagrip.com/common/offer_feed_json.php?user_id={self.user_id}&key={self.api_key}&tracking_id="
+            url = f"https://www.cpagrip.com/common/offer_feed_json.php?user_id={self.user_id}&key={self.api_key}&country=US&showall=yes&tracking_id="
             try:
                 response = requests.get(url, timeout=15)
                 data = response.json()
                 raw_offers = data.get("offers", [])
                 if raw_offers:
+                    print(f"📊 [CPAGrip API] Found {len(raw_offers)} live offers from your account!")
                     return self._filter_and_rank(raw_offers)
+                else:
+                    print(f"[!] CPAGrip returned 0 offers. Checking without filters...")
+                    url_all = f"https://www.cpagrip.com/common/offer_feed_json.php?user_id={self.user_id}&key={self.api_key}&showall=yes"
+                    data_all = requests.get(url_all, timeout=15).json()
+                    raw_all = data_all.get("offers", [])
+                    if raw_all:
+                        return self._filter_and_rank(raw_all)
             except Exception as e:
                 print(f"[!] Warning: Could not fetch live CPAGrip feed ({e}). Using sample offers.")
 
