@@ -13,7 +13,7 @@ class ContentEngine:
                 print(f"[!] Warning: Could not initialize Gemini model ({e}). Using offline copy templates.")
 
     def generate_angles(self, offer, safe_bridge_url):
-        """Generates high-converting angles for US communities."""
+        """Generates clean, structured content specifically for Reddit and Pinterest."""
         title = offer["title"]
         desc = offer["description"]
         payout = offer["payout"]
@@ -21,45 +21,40 @@ class ContentEngine:
 
         if self.client:
             prompt = f"""
-            You are an elite digital marketing strategist specializing in viral organic traffic for US audiences.
-            You are writing helpful, non-spammy promotion angles for this incentive opportunity:
-            
-            - Title: {title}
-            - Description: {desc}
-            - Action Type: {offer_type}
-            - Payout: ${payout}
+            You are an elite digital marketing specialist for US audiences.
+            Create clean, ready-to-copy promotion text for:
+            - Offer: {title} (${payout} payout, {offer_type})
             - Safe Pre-Lander Link: {safe_bridge_url}
 
-            Generate 4 distinct, ready-to-copy marketing angles formatted in clean Markdown:
-
-            1. 💬 **Reddit/Forum Value Answer**:
-               - Target Subreddits: (e.g. r/beermoney, r/frugal, r/deals, r/sidehustle)
-               - Context: Answering someone asking how to get free gift cards, save on groceries, or test apps.
-               - Body: 2-3 short, authentic paragraphs providing genuine tips first, then subtly recommending checking out the verified resource page at `{safe_bridge_url}`.
-
-            2. 📌 **Pinterest Pin Title & SEO Description**:
-               - Pin Title: Click-worthy and benefit-driven (under 80 chars).
-               - Description: 300-word SEO-optimized pin description with 5 viral hashtags (#USDeals #FrugalLiving #SideHustle #FreeGiftCards #BudgetingHacks).
-
-            3. ❓ **Quora Thoughtful Response**:
-               - Question to target: e.g. "What are the most legitimate ways to earn gift cards or test apps in the US in 2026?"
-               - Detailed 3-step structured breakdown highlighting this program.
-
-            4. ⚡ **Short-Form Hook (TikTok / Reels / Twitter)**:
-               - Hook + 15-second voiceover script leading users to click the link in bio.
-
-            Strict Rules:
-            - Never use spammy buzzwords like "FREE MONEY FAST".
-            - Keep tone helpful, relatable, and compliant with FTC guidelines (include a subtle `#ad` or "Verified Partner" note).
+            Output strictly in this JSON format without markdown code fences:
+            {{
+              "reddit_comment": "A natural 2-3 paragraph casual human response from a 27yo US resident. Helpful advice first, then naturally mentioning [{title}]({safe_bridge_url}) in the second paragraph, ending with casual tip and *(shared via partner link)*. No bold headers or bullet points.",
+              "pin_title": "Catchy benefit-driven Pinterest Pin Title under 70 characters",
+              "pin_description": "2-3 engaging sentences describing how to claim this reward with hashtags #USDeals #FrugalLiving #SideHustle #FreeGiftCards"
+            }}
             """
             try:
                 res = self.client.generate_content(prompt)
-                return res.text
+                text = res.text.strip()
+                if text.startswith("```json"):
+                    text = text[7:]
+                if text.startswith("```"):
+                    text = text[3:]
+                if text.endswith("```"):
+                    text = text[:-3]
+                
+                import json
+                data = json.loads(text.strip())
+                return data
             except Exception as e:
-                print(f"[!] Gemini generation error ({e}). Using fallback template.")
+                print(f"[!] Gemini structured parsing error ({e}). Using clean fallback.")
 
-        # Fallback offline template
-        return self._generate_fallback(offer, safe_bridge_url)
+        # Clean fallback
+        return {
+            "reddit_comment": f"Honestly, if you're looking for low-effort stuff that actually pays out in the US right now, I usually combine receipt scanning apps with quick consumer panels.\n\nI recently tested the [{title}]({safe_bridge_url}) through a verified rewards hub—it only takes a couple of minutes to complete and is definitely worth checking out while it's active.\n\nJust make sure you use a valid US zip so the reward registers properly! *(shared via partner link)*",
+            "pin_title": f"How to Claim {title} (US Only)",
+            "pin_description": f"Discover how verified consumer reward programs give away digital perks for quick feedback. Check out the step-by-step portal below! #FrugalLiving #USDeals #MoneyHacks #SideIncome #GiftCards"
+        }
 
     def _generate_fallback(self, offer, safe_bridge_url):
         title = offer["title"]

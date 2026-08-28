@@ -45,56 +45,58 @@ def run_agent():
     safe_bridge_link = bridge_generator.generate_safe_url(best_offer["link"], best_offer["title"])
     print(f"🛡️ [3/4] Generated Safe Pre-Lander Link: {safe_bridge_link}")
 
-    # 4. Generate Viral Marketing Angles
-    print("✍️ [4/4] Generating US Audience Psychological Hooks with Gemini Flash...")
-    marketing_angles = content_engine.generate_angles(best_offer, safe_bridge_link)
+    # 4. Generate Structured Content with Gemini
+    print("✍️ [4/5] Generating Hyper-Converting Reddit & Pinterest Angles...")
+    angles = content_engine.generate_angles(best_offer, safe_bridge_link)
+    reddit_comment = angles.get("reddit_comment", "")
+    pin_title = angles.get("pin_title", best_offer["title"])
+    pin_description = angles.get("pin_description", "Verified US offer opportunity.")
 
-    # 5. Autonomous Reddit Matching & Human Commenting
-    print("💬 [5/5] Scanning US Subreddits for live relevant questions...")
-    reddit_report = ""
-    target_thread = reddit_poster.find_best_thread()
-    if target_thread:
-        print(f"🎯 Found target thread in r/{target_thread['subreddit']}: '{target_thread['title']}'")
-        human_comment = reddit_poster.generate_human_comment(
-            content_engine.client, 
-            target_thread, 
-            best_offer, 
-            safe_bridge_link
-        )
-        
-        post_result = reddit_poster.post_comment(target_thread, human_comment)
-        if post_result.get("success"):
-            status_tag = "Simulated Draft" if post_result.get("simulated") else "Live Posted!"
-            reddit_report = f"""
----
-🤖 **AUTONOMOUS REDDIT AUTO-POSTER REPORT ({status_tag})**
-📍 **Subreddit:** r/{target_thread['subreddit']}
-🔗 **Thread URL:** {target_thread['url']}
-👤 **Human-Like Comment Generated & Placed:**
-> {human_comment}
-"""
-
-    # 6. Generate High-Converting Pinterest Graphic
-    print("🎨 [6/6] Generating 1000x1500 Pinterest Visual Graphic...")
+    # 5. Generate Pinterest Pin Image
+    print("🎨 [5/5] Generating 1000x1500 Pinterest Graphic...")
     pin_image_path = pin_generator.create_pin_image(best_offer["title"], best_offer["payout"], best_offer["type"])
 
-    # 7. Format & Dispatch Notification to Telegram
-    tg_briefing = f"""🚀 *TOP CPAGRIP US OFFER DETECTED*
+    # ==========================================
+    # MESSAGE 1: REDDIT ACTION CARD
+    # ==========================================
+    reddit_message = f"""🔥 *REDDIT ACTION CARD (30-Sec Post)*
 
-📌 *Offer:* {best_offer['title']}
-💰 *Payout:* ${best_offer['payout']} | *EPC:* {best_offer['epc']}
-📍 *Target Geo:* {best_offer['country']} ({best_offer['type']})
+📌 *Offer Name:* {best_offer['title']} (${best_offer['payout']})
+📍 *Target Geo:* US ({best_offer['type']})
 
-🛡️ *Your Safe Pre-Lander Link:*
-`{safe_bridge_link}`
-{reddit_report}
----
-{marketing_angles}
+🎯 *Step 1: Click a link below to open recent US questions:*
+👉 [Open r/beermoney Discussions](https://www.reddit.com/r/beermoney/search/?q=apps+reward+testing&sort=new)
+👉 [Open r/frugal Discussions](https://www.reddit.com/r/frugal/search/?q=save+money+rewards&sort=new)
+👉 [Open r/SideHustle Discussions](https://www.reddit.com/r/SideHustle/search/?q=easy+money+apps&sort=new)
+
+📋 *Step 2: Tap the box below to copy & paste this comment:*
+```text
+{reddit_comment}
+```
 """
 
-    notifier.send_notification(tg_briefing)
-    notifier.send_photo(pin_image_path, caption=f"📌 Ready-to-Upload Pinterest Pin for: {best_offer['title']}\n🔗 Link: {safe_bridge_link}")
-    print("✨ [AI Agent] Pipeline execution complete.")
+    # ==========================================
+    # MESSAGE 2: PINTEREST ACTION CARD
+    # ==========================================
+    pinterest_caption = f"""📌 *PINTEREST ACTION CARD (1-Minute Pin)*
+
+🚀 *Step 1: Open Pinterest Creator:*
+👉 [Click to Open Pinterest Pin Builder](https://www.pinterest.com/pin-builder/)
+
+🏷️ *Step 2: Copy Pin Title:*
+`{pin_title}`
+
+📝 *Step 3: Copy Pin Description:*
+`{pin_description}`
+
+🌐 *Step 4: Copy Destination Link:*
+`{safe_bridge_link}`
+"""
+
+    # Dispatch to Telegram
+    notifier.send_notification(reddit_message)
+    notifier.send_photo(pin_image_path, caption=pinterest_caption)
+    print("✨ [AI Agent] Pipeline execution complete. Two clean cards delivered to Telegram!")
 
 if __name__ == "__main__":
     run_agent()
