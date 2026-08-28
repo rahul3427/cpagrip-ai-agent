@@ -42,3 +42,19 @@ class Notifier:
                     print(f"[!] [Telegram] Network error sending notification: {e}")
         else:
             print("ℹ️ Telegram credentials not configured. Notification printed to console.")
+
+    def send_photo(self, photo_path, caption=""):
+        """Sends a generated Pin image directly to Telegram."""
+        if self.bot_token and self.chat_id and os.path.exists(photo_path):
+            url = f"https://api.telegram.org/bot{self.bot_token}/sendPhoto"
+            try:
+                with open(photo_path, "rb") as photo_file:
+                    files = {"photo": photo_file}
+                    data = {"chat_id": self.chat_id, "caption": caption[:1024]}
+                    res = requests.post(url, data=data, files=files, timeout=20)
+                    if res.ok:
+                        print("🎨 [Telegram] Pinterest Pin image delivered to your phone!")
+                    else:
+                        print(f"[!] [Telegram] Failed to send photo: {res.text}")
+            except Exception as e:
+                print(f"[!] [Telegram] Error uploading photo: {e}")

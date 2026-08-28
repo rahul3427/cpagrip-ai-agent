@@ -18,9 +18,10 @@ from modules.content_engine import ContentEngine
 from modules.bridge_generator import BridgeGenerator
 from modules.notifier import Notifier
 from modules.reddit_poster import RedditPoster
+from modules.pinterest_generator import PinterestGenerator
 
 def run_agent():
-    print("🤖 [AI Agent] Initializing Autonomous CPA Traffic Engine...")
+    print("🤖 [AI Agent] Initializing Autonomous Multi-Platform Traffic Engine...")
 
     # 1. Initialize Engines
     offer_engine = OfferEngine()
@@ -28,6 +29,7 @@ def run_agent():
     bridge_generator = BridgeGenerator(base_url=os.getenv("BRIDGE_BASE_URL", "https://rahul3427.github.io/rewards-hub/"))
     notifier = Notifier()
     reddit_poster = RedditPoster()
+    pin_generator = PinterestGenerator()
 
     # 2. Fetch & Evaluate Best US Offers
     print("🔎 [1/4] Scanning CPAGrip for highest EPC US offers...")
@@ -72,7 +74,11 @@ def run_agent():
 > {human_comment}
 """
 
-    # 6. Format & Dispatch Notification to Telegram
+    # 6. Generate High-Converting Pinterest Graphic
+    print("🎨 [6/6] Generating 1000x1500 Pinterest Visual Graphic...")
+    pin_image_path = pin_generator.create_pin_image(best_offer["title"], best_offer["payout"], best_offer["type"])
+
+    # 7. Format & Dispatch Notification to Telegram
     tg_briefing = f"""🚀 *TOP CPAGRIP US OFFER DETECTED*
 
 📌 *Offer:* {best_offer['title']}
@@ -87,6 +93,7 @@ def run_agent():
 """
 
     notifier.send_notification(tg_briefing)
+    notifier.send_photo(pin_image_path, caption=f"📌 Ready-to-Upload Pinterest Pin for: {best_offer['title']}\n🔗 Link: {safe_bridge_link}")
     print("✨ [AI Agent] Pipeline execution complete.")
 
 if __name__ == "__main__":
