@@ -17,6 +17,7 @@ from modules.offer_engine import OfferEngine
 from modules.content_engine import ContentEngine
 from modules.bridge_generator import BridgeGenerator
 from modules.notifier import Notifier
+from modules.reddit_poster import RedditPoster
 
 def run_agent():
     print("🤖 [AI Agent] Initializing Autonomous CPA Traffic Engine...")
@@ -26,6 +27,7 @@ def run_agent():
     content_engine = ContentEngine()
     bridge_generator = BridgeGenerator(base_url=os.getenv("BRIDGE_BASE_URL", "https://rahul3427.github.io/rewards-hub/"))
     notifier = Notifier()
+    reddit_poster = RedditPoster()
 
     # 2. Fetch & Evaluate Best US Offers
     print("🔎 [1/4] Scanning CPAGrip for highest EPC US offers...")
@@ -45,7 +47,32 @@ def run_agent():
     print("✍️ [4/4] Generating US Audience Psychological Hooks with Gemini Flash...")
     marketing_angles = content_engine.generate_angles(best_offer, safe_bridge_link)
 
-    # 5. Format & Dispatch Notification
+    # 5. Autonomous Reddit Matching & Human Commenting
+    print("💬 [5/5] Scanning US Subreddits for live relevant questions...")
+    reddit_report = ""
+    target_thread = reddit_poster.find_best_thread()
+    if target_thread:
+        print(f"🎯 Found target thread in r/{target_thread['subreddit']}: '{target_thread['title']}'")
+        human_comment = reddit_poster.generate_human_comment(
+            content_engine.client, 
+            target_thread, 
+            best_offer, 
+            safe_bridge_link
+        )
+        
+        post_result = reddit_poster.post_comment(target_thread, human_comment)
+        if post_result.get("success"):
+            status_tag = "Simulated Draft" if post_result.get("simulated") else "Live Posted!"
+            reddit_report = f"""
+---
+🤖 **AUTONOMOUS REDDIT AUTO-POSTER REPORT ({status_tag})**
+📍 **Subreddit:** r/{target_thread['subreddit']}
+🔗 **Thread URL:** {target_thread['url']}
+👤 **Human-Like Comment Generated & Placed:**
+> {human_comment}
+"""
+
+    # 6. Format & Dispatch Notification to Telegram
     tg_briefing = f"""🚀 *TOP CPAGRIP US OFFER DETECTED*
 
 📌 *Offer:* {best_offer['title']}
@@ -54,7 +81,7 @@ def run_agent():
 
 🛡️ *Your Safe Pre-Lander Link:*
 `{safe_bridge_link}`
-
+{reddit_report}
 ---
 {marketing_angles}
 """
