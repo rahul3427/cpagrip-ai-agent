@@ -46,35 +46,34 @@ def run_agent():
     print(f"🛡️ [3/4] Generated Safe Pre-Lander Link: {safe_bridge_link}")
 
     # 4. Generate Structured Content with Gemini
-    print("✍️ [4/4] Generating High-Converting Reddit & Medium Angles...")
+    print("✍️ [4/4] Generating Universal Reddit Comment & US-Targeted Medium Story...")
     angles = content_engine.generate_angles(best_offer, safe_bridge_link)
-    reddit_comment = angles.get("reddit_comment", "")
+    reddit_comment = angles.get("reddit_universal_comment", angles.get("reddit_comment", ""))
     medium_title = angles.get("medium_title", best_offer["title"])
     medium_subtitle = angles.get("medium_subtitle", "Verified US promotional opportunity.")
     medium_article = angles.get("medium_article", "")
-    medium_tags = angles.get("medium_tags", "Side Hustle, Money, Productivity, Apps")
+    medium_tags = angles.get("medium_tags", "Money, Side Hustle, Personal Finance, Life Hacks, Productivity")
 
     # ==========================================
-    # MESSAGE 1: REDDIT ACTION CARD
+    # MESSAGE 1: REDDIT ACTION CARD (UNIVERSAL COMMENT)
     # ==========================================
-    reddit_message = f"""🔥 *REDDIT ACTION CARD (30-Sec Post)*
+    reddit_message = f"""🔥 *REDDIT ACTION CARD (Universal Human Comment)*
 
 📌 *Offer Name:* {best_offer['title']} (${best_offer['payout']})
 📍 *Target Geo:* US ({best_offer['type']})
 
-🎯 *Step 1: Click a link below to open recent US questions:*
-👉 [Open r/beermoney Discussions](https://www.reddit.com/r/beermoney/search/?q=apps+reward+testing&sort=new)
-👉 [Open r/frugal Discussions](https://www.reddit.com/r/frugal/search/?q=save+money+rewards&sort=new)
-👉 [Open r/SideHustle Discussions](https://www.reddit.com/r/SideHustle/search/?q=easy+money+apps&sort=new)
+🎯 *Step 1: Click either link to open top trending US posts:*
+👉 [URL 1: US Popular / Best Posts](https://www.reddit.com/r/popular/best/?geo_filter=us)
+👉 [URL 2: Top Money Posts Today](https://www.reddit.com/search/?q=money&type=posts&sort=top&t=day)
 
-📋 *Step 2: Tap COPY CODE below to copy & paste this comment:*
+📋 *Step 2: Tap COPY CODE below to paste this universal comment:*
 ```text
 {reddit_comment}
 ```
 """
 
     # ==========================================
-    # MESSAGE 2: MEDIUM ACTION CARD
+    # MESSAGE 2: MEDIUM ACTION CARD (US-TARGETED STORY)
     # ==========================================
     medium_message = f"""📝 *MEDIUM ACTION CARD (1-Minute Story)*
 
@@ -106,7 +105,7 @@ def run_agent():
     notifier.send_notification(reddit_message)
     notifier.send_notification(medium_message)
     notifier.send_notification(medium_title_message)
-    print("✨ [AI Agent] Pipeline execution complete. Reddit & Medium cards delivered to Telegram!")
+    print("✨ [AI Agent] Pipeline execution complete. Cards delivered to Telegram!")
 
 if __name__ == "__main__":
     run_agent()

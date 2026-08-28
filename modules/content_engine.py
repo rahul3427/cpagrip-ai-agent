@@ -13,7 +13,7 @@ class ContentEngine:
                 print(f"[!] Warning: Could not initialize Gemini model ({e}). Using offline copy templates.")
 
     def generate_angles(self, offer, safe_bridge_url):
-        """Generates clean, structured content specifically for Reddit and Medium."""
+        """Generates universal Reddit comments and US-targeted Medium stories."""
         title = offer["title"]
         desc = offer["description"]
         payout = offer["payout"]
@@ -21,20 +21,20 @@ class ContentEngine:
 
         if self.client:
             prompt = f"""
-            You are an elite digital marketing and SEO writer specializing in US audience conversion.
-            Analyze this offer:
+            You are a master digital marketer and viral content creator for US audiences.
+            Analyze this CPA offer:
             - Title: {title}
             - Reward/Payout: ${payout}
-            - Type: {offer_type}
-            - Safe Pre-Lander Link: {safe_bridge_url}
+            - Category: {offer_type}
+            - Safe Bridge Link: {safe_bridge_url}
 
-            Output strictly in this JSON format without markdown code fences:
+            Generate two specific assets in strict JSON format without markdown fences:
             {{
-              "reddit_comment": "A natural 2-3 paragraph casual human response from a 27yo US resident. Helpful advice first, then naturally mentioning [{title}]({safe_bridge_url}) in the second paragraph, ending with casual tip and *(shared via partner link)*. No bold headers or corporate lists.",
-              "medium_title": "High-CTR, curiosity-driven Medium Story Title under 80 characters (e.g. The 2-Minute Habit Saving US Shoppers Money This Month)",
-              "medium_subtitle": "Engaging one-sentence subtitle explaining the benefit",
-              "medium_article": "A high-quality 350-450 word Medium article with 2-3 subheadings. Structure: 1. Introduction acknowledging rising US living costs or routine phone habits. 2. Real strategy breakdown. 3. Highlighting [{title}]({safe_bridge_url}) as a verified zero-cost opportunity. 4. Practical takeaway steps and affiliate disclosure *(Note: Contains partner resource links)*.",
-              "medium_tags": "Side Hustle, Money, Productivity, Apps, Lifestyle"
+              "reddit_universal_comment": "A versatile, relatable 2-paragraph human comment that can fit naturally as a helpful side-note, life-hack, or personal recommendation in ANY popular US Reddit thread or personal finance/money discussion. It starts with a relatable observation on rising daily costs in the US, casually mentions trying out [{title}]({safe_bridge_url}) through a verified rewards portal, and ends with a friendly tip. Completely natural human tone, contractions, no bold headers or spam vibes, ending with *(shared via partner link)*.",
+              "medium_title": "A viral, curiosity-driven Medium Title under 80 characters (e.g. The 2-Minute Habit Saving Everyday US Shoppers Hundreds This Year)",
+              "medium_subtitle": "An engaging one-sentence subtitle detailing the smart US consumer hack.",
+              "medium_article": "A deeply humanoid, story-driven 400-word Medium article. Explicitly mention US residents/states, current economic context (groceries/apps/smart budgeting), break down the exact strategy, naturally recommend [{title}]({safe_bridge_url}) with clear 3-step instructions on how US users can claim it, and include a subtle affiliate disclosure *(Note: Contains verified partner access link)*.",
+              "medium_tags": "Money, Side Hustle, Personal Finance, Life Hacks, Productivity"
             }}
             """
             try:
@@ -55,11 +55,11 @@ class ContentEngine:
 
         # Clean fallback
         return {
-            "reddit_comment": f"Honestly, if you're looking for low-effort stuff that actually pays out in the US right now, I usually combine receipt scanning apps with quick consumer panels.\n\nI recently tested the [{title}]({safe_bridge_url}) through a verified rewards hub—it only takes a couple of minutes to complete and is definitely worth checking out while it's active.\n\nJust make sure you use a valid US zip so the reward registers properly! *(shared via partner link)*",
-            "medium_title": f"The Smart Way to Test New Apps & Earn Rewards in 2026",
-            "medium_subtitle": "How verified micro-reward programs are helping everyday US users earn in their downtime.",
-            "medium_article": f"Managing a personal budget in 2026 requires looking for smart, low-friction habits that put extra cash or gift cards in your pocket without demanding hours of your day.\n\n### The Rise of Mobile Micro-Testing\nApp developers spend millions of dollars annually acquiring new test users. Instead of sitting through lengthy questionnaires, modern rewards networks offer micro-tasks where you simply download, test, and engage with trending applications for a couple of minutes.\n\n### Featured US Opportunity: {title}\nOne of the most active campaigns running this month is [{title}]({safe_bridge_url}). Available for US residents, this program allows users to access verified trials and claim instant incentives upon quick onboarding.\n\n### How to Get Started:\n1. Open the [Verified Rewards Portal]({safe_bridge_url}).\n2. Complete the quick 1-minute sponsor check.\n3. Enjoy your digital reward!\n\n*(Disclosure: This article contains verified affiliate partner links).*",
-            "medium_tags": "Side Hustle, Money, Productivity, Technology, Lifestyle"
+            "reddit_universal_comment": f"Honestly, with how expensive everyday essentials and monthly expenses have gotten across the US lately, I've been paying a lot closer attention to small digital life hacks that quietly put extra cash or perks back in your pocket.\n\nA really solid one I tested recently is [{title}]({safe_bridge_url}) through a verified consumer rewards portal. It literally only takes about two minutes on your phone or laptop to qualify and complete the quick check.\n\nDefinitely worth bookmarking if you want an easy win without jumping through a million hoops. Just make sure to confirm via email so it tracks properly! *(shared via partner link)*",
+            "medium_title": f"The Smart US Consumer Hack for Extra Rewards in 2026",
+            "medium_subtitle": "How everyday Americans are turning simple 2-minute phone habits into real perks.",
+            "medium_article": f"Between rising grocery bills and everyday household expenses across the United States, finding practical, zero-cost ways to supplement your budget has never been more relevant.\n\n### The Shift Toward Micro-Rewards\nMost of us spend hours every week scrolling on our phones without getting anything in return. However, major developers and brand research panels spend millions every year to reward everyday consumers for quick feedback and app trials.\n\n### Featured US Opportunity: {title}\nOne of the most reliable verified programs active right now is [{title}]({safe_bridge_url}). Open to eligible US residents, this program offers a direct, hassle-free way to claim promotional access in under two minutes.\n\n### Simple Steps to Claim Access:\n1. Open the [Verified US Rewards Hub]({safe_bridge_url}).\n2. Complete the quick sponsor check on your phone or PC.\n3. Instantly claim your promotional reward.\n\n*(Note: This article contains verified affiliate partner links).*",
+            "medium_tags": "Money, Side Hustle, Personal Finance, Life Hacks, Productivity"
         }
 
     def _generate_fallback(self, offer, safe_bridge_url):
