@@ -46,15 +46,13 @@ def run_agent():
     print(f"🛡️ [3/4] Generated Safe Pre-Lander Link: {safe_bridge_link}")
 
     # 4. Generate Structured Content with Gemini
-    print("✍️ [4/5] Generating Hyper-Converting Reddit & Pinterest Angles...")
+    print("✍️ [4/4] Generating High-Converting Reddit & Medium Angles...")
     angles = content_engine.generate_angles(best_offer, safe_bridge_link)
     reddit_comment = angles.get("reddit_comment", "")
-    pin_title = angles.get("pin_title", best_offer["title"])
-    pin_description = angles.get("pin_description", "Verified US offer opportunity.")
-
-    # 5. Generate Pinterest Pin Image
-    print("🎨 [5/5] Generating 1000x1500 Pinterest Graphic...")
-    pin_image_path = pin_generator.create_pin_image(best_offer["title"], best_offer["payout"], best_offer["type"])
+    medium_title = angles.get("medium_title", best_offer["title"])
+    medium_subtitle = angles.get("medium_subtitle", "Verified US promotional opportunity.")
+    medium_article = angles.get("medium_article", "")
+    medium_tags = angles.get("medium_tags", "Side Hustle, Money, Productivity, Apps")
 
     # ==========================================
     # MESSAGE 1: REDDIT ACTION CARD
@@ -69,42 +67,46 @@ def run_agent():
 👉 [Open r/frugal Discussions](https://www.reddit.com/r/frugal/search/?q=save+money+rewards&sort=new)
 👉 [Open r/SideHustle Discussions](https://www.reddit.com/r/SideHustle/search/?q=easy+money+apps&sort=new)
 
-📋 *Step 2: Tap the box below to copy & paste this comment:*
+📋 *Step 2: Tap COPY CODE below to copy & paste this comment:*
 ```text
 {reddit_comment}
 ```
 """
 
     # ==========================================
-    # MESSAGE 2: PINTEREST ACTION CARD (DESCRIPTION & LINK)
+    # MESSAGE 2: MEDIUM ACTION CARD
     # ==========================================
-    pinterest_details = f"""📌 *PINTEREST ACTION CARD (1-Minute Pin)*
+    medium_message = f"""📝 *MEDIUM ACTION CARD (1-Minute Story)*
 
-🚀 *Step 1: Open Pinterest Creator:*
-👉 [Click to Open Pinterest Pin Builder](https://www.pinterest.com/pin-builder/)
+🚀 *Step 1: Open Medium Story Creator:*
+👉 [Click to Write New Story on Medium](https://medium.com/new-story)
 
-📝 *Step 2: Tap COPY CODE below for Pin Description:*
+🏷️ *Step 2: Subtitle (Optional):*
 ```text
-{pin_description}
+{medium_subtitle}
 ```
 
-🌐 *Step 3: Tap COPY CODE below for Destination Link:*
+📄 *Step 3: Tap COPY CODE below for Full Article Body:*
 ```text
-{safe_bridge_link}
+{medium_article}
+```
+
+🏷️ *Step 4: Tap COPY CODE below for 5 Topic Tags:*
+```text
+{medium_tags}
 ```
 """
 
     # ==========================================
-    # MESSAGE 3: STANDALONE PIN TITLE (1-TAP FULL COPY)
+    # MESSAGE 3: STANDALONE MEDIUM TITLE (1-TAP FULL COPY)
     # ==========================================
-    pin_title_message = f"{pin_title}"
+    medium_title_message = f"{medium_title}"
 
     # Dispatch to Telegram in clean sequence
     notifier.send_notification(reddit_message)
-    notifier.send_photo(pin_image_path, caption="🎨 Save this Pinterest Pin image to your device!")
-    notifier.send_notification(pinterest_details)
-    notifier.send_notification(pin_title_message)
-    print("✨ [AI Agent] Pipeline execution complete. Cards delivered to Telegram!")
+    notifier.send_notification(medium_message)
+    notifier.send_notification(medium_title_message)
+    print("✨ [AI Agent] Pipeline execution complete. Reddit & Medium cards delivered to Telegram!")
 
 if __name__ == "__main__":
     run_agent()
