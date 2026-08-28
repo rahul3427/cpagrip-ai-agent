@@ -37,29 +37,30 @@ class ContentEngine:
             prompt = f"""
             You are writing as {chosen_persona}.
             Seed/Timestamp: {random_seed}
-            Target Offer: {title} (Payout: ${payout}, Type: {offer_type})
-            Safe Link: {safe_bridge_url}
+            Offer Reward Name: {title} (Payout: ${payout}, Category: Email/Zip Submit)
+            Safe Resource Link: {safe_bridge_url}
 
-            CRITICAL ANTI-AI DETECTION & HUMAN WRITING RULES:
-            1. NEVER add robotic disclaimers like '(shared via partner link)' or '(ad)' to Reddit comments. Real humans on Reddit never type that! Keep it 100% clean, casual, and authentic.
-            2. BANNED AI BUZZWORDS: Never use 'delve', 'tapestry', 'testament', 'beacon', 'game-changer', 'revolutionize', 'fast-paced world', 'moreover', 'furthermore', 'it is important to remember', 'navigate', 'in conclusion'.
-            3. REDDIT COMMENT MUST BE SHORT & PUNCHY (2 to 3 sentences max!):
-               - Write like a real person typing quickly on a smartphone.
-               - Use natural casual phrasing ('tbh', 'ngl', 'honestly', 'pretty solid', 'was kinda skeptical').
-               - Hyperlink [{title}]({safe_bridge_url}) naturally as part of the sentence.
-               - End casually with zero disclaimers or tags.
-            4. MEDIUM ARTICLE MUST BE A NATURAL HUMAN STORY (300-350 words):
-               - Engaging first-person or conversational US narrative.
-               - Mention everyday US context (coffee runs, grocery receipts, phone downtime).
-               - Seamlessly integrate [{title}]({safe_bridge_url}) as a verified resource.
+            CRITICAL CONTEXT & BENEFIT RULES:
+            1. TOPIC CONTEXT: The content MUST be directly about the reward ({title} - e.g. if it's about sneakers, talk about shoes/footwear deals; if it's a gas card, talk about gas prices/fuel savings; if it's Ulta, talk about beauty/skincare; if Walmart/Target, talk about groceries/essentials).
+            2. FRAME AS SHARING FOR THEIR BENEFIT: Write like an excited everyday US shopper sharing an insider tip with fellow readers so they can claim the perk too.
+            3. ZERO BOT DISCLAIMERS: Never write '(shared via partner link)', '(ad)', or any robotic tags.
+            4. BANNED AI BUZZWORDS: Never use 'delve', 'tapestry', 'testament', 'beacon', 'game-changer', 'revolutionize', 'fast-paced world', 'moreover', 'furthermore', 'it is important to remember', 'navigate', 'in conclusion'.
+            5. REDDIT COMMENT MUST BE SHORT & PUNCHY (2 to 3 sentences max!):
+               - Casual, relatable slang ('tbh', 'ngl', 'honestly', 'pretty solid', 'was kinda skeptical').
+               - Naturally link [{title}]({safe_bridge_url}) as the place to grab it before the round closes.
+               - Zero disclaimers.
+            6. MEDIUM ARTICLE (300-350 words):
+               - Engaging story tailored specifically to this reward category in the US.
+               - 3 clear bullet steps showing how US residents enter their email/zip to claim.
+               - Seamlessly integrate [{title}]({safe_bridge_url}).
 
             Output strictly in this JSON format without markdown code blocks:
             {{
-              "reddit_universal_comment": "Short 2-3 sentence pure human casual comment with [{title}]({safe_bridge_url}) and NO robotic tags",
-              "medium_title": "Catchy, non-cliché headline under 75 chars",
-              "medium_subtitle": "One conversational benefit line",
-              "medium_article": "300-350 word human-crafted Medium story with clean headers and natural flow",
-              "medium_tags": "Money, Side Hustle, Personal Finance, Life Hacks, Productivity"
+              "reddit_universal_comment": "Short 2-3 sentence pure human comment specifically about {title} with [{title}]({safe_bridge_url}) and NO robotic tags",
+              "medium_title": "Catchy headline specifically about {title} under 75 chars",
+              "medium_subtitle": "One conversational benefit line about claiming this reward",
+              "medium_article": "300-350 word story specifically about {title} with 3 steps on entering email/zip",
+              "medium_tags": "Money, Savings, Deals, Shopping, Frugal Living"
             }}
             """
             try:
