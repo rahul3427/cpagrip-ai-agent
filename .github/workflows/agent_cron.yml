@@ -1,0 +1,33 @@
+name: Run CPAGrip AI Agent
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Runs automatically every 6 hours
+  workflow_dispatch:        # Allows manual run from GitHub UI anytime
+
+jobs:
+  execute-agent:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v3
+
+      - name: Setup Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run AI Agent Pipeline
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          CPAGRIP_USER_ID: ${{ secrets.CPAGRIP_USER_ID }}
+          CPAGRIP_KEY: ${{ secrets.CPAGRIP_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          BRIDGE_BASE_URL: ${{ secrets.BRIDGE_BASE_URL }}
+        run: python main.py
