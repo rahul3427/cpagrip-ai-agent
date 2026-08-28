@@ -34,42 +34,45 @@ class ContentEngine:
         random_seed = int(time.time() * 1000) % 100000
 
         if self.client:
-            # Diverse authentic storytelling angles for Medium
+            # Diverse authentic storytelling themes for Medium
             story_themes = [
-                "a warm, personal journal entry about finding a small unexpected win while balancing family budget",
-                "a funny and relatable story about a coffee run realization and discovering regional sponsor perks",
-                "an honest, transparent review sharing a 2-minute life hack with friends and coworkers",
-                "a cozy weekend reflection on cutting everyday shopping costs without giving up favorite treats"
+                "a cozy reflection on balancing a tight household budget and discovering small unexpected perks",
+                "a funny and honest recount of a morning routine realization and testing a regional community perk",
+                "a relatable story about swapping 5 minutes of phone doomscrolling for something actually worthwhile",
+                "a thoughtful essay on how modern digital word-of-mouth helps everyday people find real deals"
             ]
             chosen_theme = random.choice(story_themes)
 
             prompt = f"""
-            You are an authentic, warm, and friendly US writer sharing a genuine personal story.
+            You are an authentic, warm, and friendly US essayist writing on Medium.
             Theme: {chosen_theme}
             Location/Background: {chosen_persona}
             Reward Opportunity: {title}
             Direct Resource Link: {safe_bridge_url}
 
-            CRITICAL MEDIUM WRITING & LINK FORMATTING RULES:
-            1. ZERO MARKDOWN BRACKET LINKS in the Medium article text! Medium does not parse [Text](url) markdown syntax. Instead, include the clean URL directly on its own line like this:
-               👉 Official Claim Page: {safe_bridge_url}
-            2. ULTRA-FRIENDLY & HUMAN: Write like you are talking to a close friend over coffee. Share a genuine, relatable life scenario (dealing with real US prices, grocery runs, family, or work routines).
-            3. REALISTIC & HUMBLE: No sales hype, no get-rich-quick claims. Frame this as a neat 2-minute perk that helped cover a small treat or errand.
-            4. CLEAR 3-STEP GUIDE: Explain how fellow US residents enter their basic email and zip code to check eligibility.
+            CRITICAL MEDIUM WRITING & LINK RULES (NO PROMOTIONAL VIBES):
+            1. NEVER write numbered tutorials ('Step 1, Step 2, Step 3') or salesy callouts like 'Official Claim Page'. That sounds like an ad!
+            2. ORGANIC 'EXPLORE' INVITATION: Weave the link naturally as a casual, no-pressure discovery for fellow readers to explore if they are curious.
+               Examples:
+               - "If you're curious to explore it yourself, here's the page I checked: {safe_bridge_url}"
+               - "I bookmarked the link here in case anyone wants to see if it's active in their area: {safe_bridge_url}"
+               - "Feel free to check it out here if you have a couple minutes during your break: {safe_bridge_url}"
+            3. DEEP HUMAN CONNECTION: Focus on real emotion, everyday life observations, and why small wins matter when living costs feel high.
+            4. COMMUNITY ENGAGEMENT: End with a warm, open-ended question inviting readers to share their own small daily life hacks or coffee routines in the comments.
             5. ZERO BANNED AI WORDS: No 'delve', 'tapestry', 'testament', 'beacon', 'game-changer', 'revolutionize', 'fast-paced', 'moreover', 'furthermore', 'in conclusion'.
 
             REDDIT WRITING RULES:
-            - Comment 1 (Popular): Short 2-3 sentence casual lifestyle break thought with [{title}]({safe_bridge_url}).
-            - Comment 2 (Money): Short 2-3 sentence smart budgeting/saving tip with [{title}]({safe_bridge_url}).
-            - No robotic disclaimers.
+            - Comment 1 (Popular): Short 2-3 sentence casual break discovery with [{title}]({safe_bridge_url}).
+            - Comment 2 (Money): Short 2-3 sentence smart budgeting tip with [{title}]({safe_bridge_url}).
+            - Zero robotic disclaimers.
 
             Output strictly in this JSON format without markdown code blocks:
             {{
               "reddit_comment_url1": "Short 2-3 sentence casual comment for Popular posts with [{title}]({safe_bridge_url})",
               "reddit_comment_url2": "Short 2-3 sentence money-saving comment for Money posts with [{title}]({safe_bridge_url})",
-              "medium_title": "Warm, curiosity-driven personal story headline under 75 chars",
-              "medium_subtitle": "A friendly one-sentence personal takeaway",
-              "medium_article": "320-380 word heartwarming, highly relatable story using clean subheaders and direct link callout 👉 Official Claim Page: {safe_bridge_url}",
+              "medium_title": "Warm, relatable personal essay title under 75 chars",
+              "medium_subtitle": "A reflective one-sentence thought that hooks readers",
+              "medium_article": "320-380 word deeply personal, non-promotional story with smooth paragraphs and casual link invitation {safe_bridge_url}",
               "medium_tags": "Life Lessons, Personal Finance, Money, Self Improvement, Frugal Living"
             }}
             """
@@ -103,10 +106,10 @@ class ContentEngine:
         return {
             "reddit_comment_url1": f"Was taking a quick break between Zoom calls and stumbled on this {title} promo. Ngl I was kinda skeptical at first, but it literally takes a minute to drop your email and zip to see if you qualify. You can check it out over at [{title}]({safe_bridge_url}) before this current round fills up.",
             "reddit_comment_url2": f"Honestly with retail prices being so crazy right now, finding verified promos like [{title}]({safe_bridge_url}) is a pretty solid little win. It only takes about a minute on your phone to enter your email and zip to claim entry. Definitely worth checking out to save some extra cash!",
-            "medium_title": f"The Smart US Consumer Hack for {title} in 2026",
-            "medium_subtitle": "How everyday Americans are turning simple 2-minute phone habits into real perks.",
-            "medium_article": f"Between rising living costs across the United States, finding practical, zero-cost ways to supplement your budget has never been more relevant.\n\n### Featured US Opportunity: {title}\nOne of the most reliable verified programs active right now is [{title}]({safe_bridge_url}). Open to eligible US residents, this program offers a direct, hassle-free way to claim promotional access in under two minutes.\n\n### Simple Steps to Claim Access:\n1. Open the [Verified US Rewards Hub]({safe_bridge_url}).\n2. Complete the quick sponsor check on your phone or PC.\n3. Instantly claim your promotional reward.\n\n*(Note: This article contains verified partner access links).*",
-            "medium_tags": "Money, Savings, Deals, Shopping, Frugal Living"
+            "medium_title": f"The Small Everyday Habits That Keep My Monthly Budget Sane",
+            "medium_subtitle": "Why taking 2 minutes to test regional community perks beats endless doomscrolling.",
+            "medium_article": f"Living here in the US and watching our monthly expense totals climb has definitely changed how I look at everyday downtime. Between morning coffee runs and regular grocery trips, small costs have a way of silently piling up before you even realize it.\n\nEarlier this week, instead of losing twenty minutes mindlessly scrolling through social media feeds, I decided to see if word-of-mouth digital perks were actually worth a quick break. A coworker mentioned a regional program where US residents can check their local zip code for active sponsor vouchers.\n\nI was pretty skeptical at first, but it only took about a minute to check eligibility. It won't replace a paycheck, but grabbing a quick win like this helped cover a coffee run without dipping into my account.\n\nIf you're curious to explore it yourself, here is the page I used:\n{safe_bridge_url}\n\nHave you found any neat little routines or habits that help you trim daily expenses? Drop your thoughts below—I'd love to hear how you manage it!",
+            "medium_tags": "Life Lessons, Personal Finance, Money, Self Improvement, Frugal Living"
         }
 
     def _generate_fallback(self, offer, safe_bridge_url):
