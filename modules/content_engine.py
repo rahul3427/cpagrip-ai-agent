@@ -8,7 +8,7 @@ class ContentEngine:
             try:
                 import google.generativeai as genai
                 genai.configure(api_key=self.api_key)
-                self.client = genai.GenerativeModel("gemini-1.5-flash")
+                self.client = genai.GenerativeModel("gemini-3.6-flash")
             except Exception as e:
                 print(f"[!] Warning: Could not initialize Gemini model ({e}). Using offline copy templates.")
 
