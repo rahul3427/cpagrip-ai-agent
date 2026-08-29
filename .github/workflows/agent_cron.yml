@@ -1,9 +1,11 @@
 name: Run CPAGrip AI Agent
 on:
   schedule:
-    - cron: '0 13 * * *'  # 9:00 AM EST (US Morning Peak)
-    - cron: '0 17 * * *'  # 1:00 PM EST (US Lunch Peak)
-    - cron: '0 0 * * *'   # 8:00 PM EST (US Evening Prime Peak)
+    - cron: '0 5 * * *'   # 10:30 AM IST (US Early Morning)
+    - cron: '0 13 * * *'  # 6:30 PM IST  (9:00 AM EST - US Morning Peak)
+    - cron: '0 17 * * *'  # 10:30 PM IST (1:00 PM EST - US Lunch Peak)
+    - cron: '0 21 * * *'  # 2:30 AM IST  (5:00 PM EST - US After-Work Peak)
+    - cron: '0 1 * * *'   # 6:30 AM IST  (9:00 PM EST - US Evening Prime)
   workflow_dispatch:        # Allows manual run from GitHub UI anytime
 
 jobs:
